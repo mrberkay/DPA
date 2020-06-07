@@ -35,10 +35,7 @@ public class BmmAlgorithm {
 				dataContainer.addPort(wp);
 				dataContainer.addPort(bp);
 			}
-		}	
-		
-
-		
+		}		
 		//System.out.println(dataContainer.getListOfVertices().size());
 		
 		for(Port i : dataContainer.getListOfPorts()) 
@@ -49,40 +46,39 @@ public class BmmAlgorithm {
 		
 		int numberOfPorts = dataContainer.getListOfPorts().size();
 		System.out.println("number of ports: " + numberOfPorts);
-		/*
-		//Edge edge1 = new Edge(port1_vertice1 , port2_vertice1);
-		//dataContainer.addEdge(edge1);
-		
-		for(int i = 0; i < (numberOfPorts/2) ; i++) 
-		{
-			Edge newEdge = new Edge(dataContainer.getListOfPorts().get(i), dataContainer.getListOfPorts().get(i + (numberOfPorts/2)));
-			dataContainer.addEdge(newEdge);
-		}
-		*/
+	
 	}
-	/*
+	
 	public void natascha(List<Edge> graph) 
 	{
 		System.out.println("number of edges: " + graph.size());
-		dataContainer.getListOfPorts().
+		//dataContainer.getListOfPorts().
 		
 		for(Edge i: graph) 
 		{
-			i.getLeftEnd().verticeInstance.getVerticeID();
-			i.getLeftEnd().getPortNumber();
+			int leftVerticeID = i.getLeftEnd().verticeInstance.getVerticeID();
+			int leftPortID = i.getLeftEnd().getPortNumber();
 			
-			Edge edge1 = new Edge(white , black);
-			Edge edge2 = new Edge(black , white);
+			int rightVerticeID = i.getRightEnd().verticeInstance.getVerticeID();
+			int rightPortID = i.getRightEnd().getPortNumber();
+			
+			Port whitePortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.White);
+			Port blackPortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.Black);
+			Port whitePortRight = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), rightVerticeID, rightPortID, colour.White);
+			Port blackPortRight = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), rightVerticeID, rightPortID, colour.Black);
+			
+			Edge edge1 = new Edge(whitePortLeft , blackPortRight);
+			Edge edge2 = new Edge(blackPortLeft , whitePortRight);
 			dataContainer.addEdge(edge1);
 			dataContainer.addEdge(edge2);
 		}
 	}
-	*/
-	/*
+	
+	
 	public List<Edge> getListOfEdges()
 	{
 		return dataContainer.getListOfEdges();
 	}
-	*/
+	
 	
 }

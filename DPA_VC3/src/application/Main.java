@@ -57,9 +57,9 @@ public class Main {
 		
 		BmmAlgorithm algorithm = new BmmAlgorithm();
 		algorithm.create2ColouredNetwork(dataContainer.getListOfVertices());
-		//algorithm.natascha(dataContainer.getListOfEdges());
+		algorithm.natascha(dataContainer.getListOfEdges());
 		
-		/*
+		
 		List<Edge> newlist = new ArrayList<Edge>();
 		newlist = algorithm.getListOfEdges();
 		
@@ -71,7 +71,7 @@ public class Main {
 			" <---> " + i.getRightEnd().verticeInstance.getVerticeColour() + i.getRightEnd().verticeInstance.getVerticeID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
-		 */
+		
 	
 	}
 	

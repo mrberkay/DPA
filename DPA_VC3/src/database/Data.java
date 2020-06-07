@@ -6,6 +6,7 @@ import java.util.List;
 import graph.Edge;
 import graph.Port;
 import graph.Vertice;
+import graph.Vertice.colour;
 
 public class Data {
 	
@@ -58,7 +59,24 @@ public class Data {
 		return listOfEdges;
 	}
 	
-	
+	public Port getPortByVertice(List<Port> ports, int verticeID, int portID, colour desiredColour) 
+	{
+		
+		//int leftVerticeID = i.getLeftEnd().verticeInstance.getVerticeID();
+		//int leftPortID = i.getLeftEnd().getPortNumber();
+		for(Port desiredPort : ports) 
+		{
+			if(desiredPort.verticeInstance.getVerticeID() == verticeID && 
+			   desiredPort.getPortNumber() == portID && 
+			   desiredPort.getVerticeInstance().getVerticeColour() == desiredColour) 
+			{
+				System.out.println("Port gefunden");
+				return desiredPort;
+			}
+		}
+		System.out.println("Port NICHT gefunden");
+		return null;	
+	}
 	
 	
 
