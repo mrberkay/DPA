@@ -45,7 +45,7 @@ public class Main {
 		
 		for(Edge i: dataContainer.getListOfEdges()) 
 		{
-			System.out.println("Edge" + i.getID() + 
+			System.out.println("Edge" + 
 			"  " + i.getLeftEnd().verticeInstance.getVerticeID() +
 				"." +	i.getLeftEnd().getPortNumber() +
 			" <---> " + i.getRightEnd().verticeInstance.getVerticeID() +
@@ -56,14 +56,12 @@ public class Main {
 		
 		
 		BmmAlgorithm algorithm = new BmmAlgorithm();
-		algorithm.create2ColouredNetwork(dataContainer.getListOfVertices());
-		algorithm.natascha(dataContainer.getListOfEdges());
+		
+		List<Edge> virtualNetwork = new ArrayList<Edge>();
+		virtualNetwork = algorithm.createVirtualNetwork(dataContainer.getListOfVertices(), dataContainer.getListOfEdges());
 		
 		
-		List<Edge> newlist = new ArrayList<Edge>();
-		newlist = algorithm.getListOfEdges();
-		
-		for(Edge i: newlist) 
+		for(Edge i: virtualNetwork) 
 		{
 			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVerticeColour() +
 			"  " + i.getLeftEnd().verticeInstance.getVerticeID() +

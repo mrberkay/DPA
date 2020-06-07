@@ -10,31 +10,25 @@ import graph.Vertice.colour;
 
 public class BmmAlgorithm {
 
-	//Edge edge1 = new Edge(0, port1_vertice1 , port2_vertice1);
-	//Edge edge1 = new Edge(0, port1_vertice1 , port2_vertice1);
-	// Vertice vertice1 = new Vertice (1,2);
-	// Port port1_vertice1 = new Port(vertice1, 1);
 	Data dataContainer = new Data();
-
 	colour white = colour.White;
 	colour black = colour.Black;
 	
-	public void create2ColouredNetwork(List<Vertice> graph) 
-	{
+	public List<Edge> createVirtualNetwork(List<Vertice> graph, List<Edge> graphEdges) {
+		
 		for(Vertice i: graph) 
 		{
 			Vertice whiteVertice = new Vertice (i.getVerticeID(),i.getDegree(), white);
 			Vertice blackVertice = new Vertice (i.getVerticeID(),i.getDegree(), black);
 			dataContainer.addVertice(blackVertice);
-			dataContainer.addVertice(whiteVertice);
-			
-			for(int k = 0; k < i.getDegree() ; k++) 
-			{
-				Port wp = new Port(whiteVertice, k+1);
-				Port bp = new Port(blackVertice, k+1);
-				dataContainer.addPort(wp);
-				dataContainer.addPort(bp);
-			}
+			dataContainer.addVertice(whiteVertice);	
+				for(int k = 0; k < i.getDegree() ; k++) 
+				{
+					Port wp = new Port(whiteVertice, k+1);
+					Port bp = new Port(blackVertice, k+1);
+					dataContainer.addPort(wp);
+					dataContainer.addPort(bp);
+				}
 		}		
 		//System.out.println(dataContainer.getListOfVertices().size());
 		
@@ -44,17 +38,11 @@ public class BmmAlgorithm {
 			+ "." + i.getPortNumber());
 		}
 		
-		int numberOfPorts = dataContainer.getListOfPorts().size();
-		System.out.println("number of ports: " + numberOfPorts);
-	
-	}
-	
-	public void natascha(List<Edge> graph) 
-	{
-		System.out.println("number of edges: " + graph.size());
-		//dataContainer.getListOfPorts().
+
+		System.out.println("total number of ports (black and white): " + dataContainer.getListOfPorts().size());
+		System.out.println("number of edges (old graph): " + graphEdges.size());
 		
-		for(Edge i: graph) 
+		for(Edge i: graphEdges) 
 		{
 			int leftVerticeID = i.getLeftEnd().verticeInstance.getVerticeID();
 			int leftPortID = i.getLeftEnd().getPortNumber();
@@ -72,11 +60,8 @@ public class BmmAlgorithm {
 			dataContainer.addEdge(edge1);
 			dataContainer.addEdge(edge2);
 		}
-	}
-	
-	
-	public List<Edge> getListOfEdges()
-	{
+		
+		
 		return dataContainer.getListOfEdges();
 	}
 	

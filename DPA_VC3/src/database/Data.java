@@ -61,20 +61,16 @@ public class Data {
 	
 	public Port getPortByVertice(List<Port> ports, int verticeID, int portID, colour desiredColour) 
 	{
-		
-		//int leftVerticeID = i.getLeftEnd().verticeInstance.getVerticeID();
-		//int leftPortID = i.getLeftEnd().getPortNumber();
 		for(Port desiredPort : ports) 
 		{
 			if(desiredPort.verticeInstance.getVerticeID() == verticeID && 
 			   desiredPort.getPortNumber() == portID && 
 			   desiredPort.getVerticeInstance().getVerticeColour() == desiredColour) 
 			{
-				System.out.println("Port gefunden");
 				return desiredPort;
 			}
 		}
-		System.out.println("Port NICHT gefunden");
+		System.out.println("Port NOT found");
 		return null;	
 	}
 	
