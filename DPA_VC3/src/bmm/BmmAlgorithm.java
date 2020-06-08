@@ -39,8 +39,8 @@ public class BmmAlgorithm {
 		}
 		
 
-		System.out.println("total number of ports (black and white): " + dataContainer.getListOfPorts().size());
-		System.out.println("number of edges (old graph): " + graphEdges.size());
+		System.out.println("total number of ports in Virtual Network (black and white): " + dataContainer.getListOfPorts().size());
+		//System.out.println("number of edges (old graph): " + graphEdges.size());
 		
 		for(Edge i: graphEdges) 
 		{

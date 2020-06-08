@@ -39,6 +39,11 @@ public class Data {
 		return listOfVertices;
 	}
 	
+	public List<Vertice> addListOfVertices(List<Vertice> oldList) 
+	{
+		return listOfVertices = oldList;
+	}
+	
 	public void addPort(Port port) 
 	{
 		listOfPorts.add(port);
@@ -49,6 +54,11 @@ public class Data {
 		return listOfPorts;
 	}
 	
+	public List<Port> addListOfPorts(List<Port> oldList) 
+	{
+		return listOfPorts = oldList;
+	}
+	
 	public void addEdge(Edge edge) 
 	{
 		listOfEdges.add(edge);
@@ -57,6 +67,11 @@ public class Data {
 	public List<Edge> getListOfEdges()
 	{
 		return listOfEdges;
+	}
+	
+	public List<Edge> addListOfEdges(List<Edge> oldList)
+	{
+		return listOfEdges = oldList;
 	}
 	
 	public Port getPortByVertice(List<Port> ports, int verticeID, int portID, colour desiredColour) 
@@ -72,6 +87,13 @@ public class Data {
 		}
 		System.out.println("Port NOT found");
 		return null;	
+	}
+	
+	public void clearLists() 
+	{
+		listOfVertices.clear();
+		listOfPorts.clear();
+		listOfEdges.clear();
 	}
 	
 	

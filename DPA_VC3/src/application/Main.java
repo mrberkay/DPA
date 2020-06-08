@@ -8,40 +8,23 @@ import bmm.BmmAlgorithm;
 import database.Data;
 import graph.Vertice;
 import graph.Port;
+import graph.Samples;
 
 public class Main {
 	
 	public static void main(String[] args) {
 		
+		Samples sample1 = new Samples();
+		sample1.createGraph3();
 		Data dataContainer = new Data();
+		dataContainer.addListOfVertices(sample1.getListOfVertices());
+		dataContainer.addListOfPorts(sample1.getListOfPorts());
+		dataContainer.addListOfEdges(sample1.getListOfEdges());
 		
-		// Create vertices
-		Vertice vertice1 = new Vertice (1,2);
-		Vertice vertice2 = new Vertice (2,1);
-		Vertice vertice3 = new Vertice (3,1);
-		// Add vertices to database
-		dataContainer.addVertice(vertice1);
-		dataContainer.addVertice(vertice2);
-		dataContainer.addVertice(vertice3);
-		// Create ports for vertices
-		Port port1_vertice1 = new Port(vertice1, 1);
-		Port port1_vertice2 = new Port(vertice1, 2);
-		Port port2_vertice1 = new Port(vertice2, 1);
-		Port port3_vertice1 = new Port(vertice3, 1);
-		// Add ports to database
-		dataContainer.addPort(port1_vertice1);
-		dataContainer.addPort(port1_vertice2);
-		dataContainer.addPort(port2_vertice1);
-		dataContainer.addPort(port3_vertice1);
-		
-		// Create Edges
-		Edge edge1 = new Edge(port1_vertice1 , port2_vertice1);
-		Edge edge2 = new Edge(port1_vertice2, port3_vertice1);
-		// Add edges to database
-		dataContainer.addEdge(edge1);
-		dataContainer.addEdge(edge2);
-		
-		int numberOfNodes = dataContainer.getListOfVertices().size();
+		System.out.println("Created Graph:");
+		System.out.println("number of nodes in graph: " + dataContainer.getListOfVertices().size());
+		System.out.println("number of ports in graph: " + dataContainer.getListOfPorts().size());
+		System.out.println("number of edges in graph: " + dataContainer.getListOfEdges().size());
 		
 		for(Edge i: dataContainer.getListOfEdges()) 
 		{
@@ -56,7 +39,6 @@ public class Main {
 		
 		
 		BmmAlgorithm algorithm = new BmmAlgorithm();
-		
 		List<Edge> virtualNetwork = new ArrayList<Edge>();
 		virtualNetwork = algorithm.createVirtualNetwork(dataContainer.getListOfVertices(), dataContainer.getListOfEdges());
 		
