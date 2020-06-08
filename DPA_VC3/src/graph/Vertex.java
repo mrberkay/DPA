@@ -83,15 +83,18 @@ public class Vertex {
 		this.vertexStatus = vertexStatus;
 	}; 
 	
+	
+	////// Messaging //////
 	public String sendProposal() 
 	{
 		String proposal = "proposal";
 		return proposal;
 	}
 	
-	public void recieveProposal(String proposal) 
+	public void recieveProposal(String proposal) throws Exception 
 	{
-		messageContainer.add(proposal);
+		if(proposal.equalsIgnoreCase("proposal")) {messageContainer.add(proposal);}
+		else throw new Exception("Wrong message recieved: proposal");
 	}
 	
 	public String sendMatched() 
@@ -100,20 +103,22 @@ public class Vertex {
 		return matched;
 	}
 	
-	public void recieveMatched(String matched) 
+	public void recieveMatched(String matched) throws Exception 
 	{
-		messageContainer.add(matched);
+		if(matched.equalsIgnoreCase("matched")) {messageContainer.add(matched);}
+		else throw new Exception("Wrong message recieved: matched");
 	}
 	
-	public void sendAccept() 
+	public String sendAccept() 
 	{
 		String accept = "accept";
-		messageContainer.add(accept);
+		return accept;
 	}
 	
-	public void recieveAccept(String accept) 
+	public void recieveAccept(String accept) throws Exception 
 	{
-		messageContainer.add(accept);
+		if(accept.equalsIgnoreCase("accept")) {messageContainer.add(accept);}
+		else throw new Exception("Wrong message recieved: accept");
 	}
 	 
 
