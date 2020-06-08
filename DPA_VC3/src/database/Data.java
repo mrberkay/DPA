@@ -78,7 +78,7 @@ public class Data {
 	{
 		for(Port desiredPort : ports) 
 		{
-			if(desiredPort.verticeInstance.getVertexID() == verticeID && 
+			if(desiredPort.vertexInstance.getVertexID() == verticeID && 
 			   desiredPort.getPortNumber() == portID && 
 			   desiredPort.getVerticeInstance().getVertexColour() == desiredColour) 
 			{

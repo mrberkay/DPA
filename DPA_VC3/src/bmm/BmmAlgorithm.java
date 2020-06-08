@@ -1,5 +1,6 @@
 package bmm;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import database.Data;
@@ -7,6 +8,7 @@ import graph.Edge;
 import graph.Port;
 import graph.Vertex;
 import graph.Vertex.colour;
+import graph.Vertex.status;
 
 public class BmmAlgorithm {
 
@@ -34,8 +36,8 @@ public class BmmAlgorithm {
 		
 		for(Port i : dataContainer.getListOfPorts()) 
 		{
-			System.out.println(i.verticeInstance.getVertexColour() + " " + i.verticeInstance.getVertexID()
-			+ "." + i.getPortNumber() + "  State: " + i.verticeInstance.getVertexStatus());
+			System.out.println(i.vertexInstance.getVertexColour() + " " + i.vertexInstance.getVertexID()
+			+ "." + i.getPortNumber() + "  State: " + i.vertexInstance.getVertexStatus());
 		}
 		
 
@@ -44,10 +46,10 @@ public class BmmAlgorithm {
 		
 		for(Edge i: graphEdges) 
 		{
-			int leftVerticeID = i.getLeftEnd().verticeInstance.getVertexID();
+			int leftVerticeID = i.getLeftEnd().vertexInstance.getVertexID();
 			int leftPortID = i.getLeftEnd().getPortNumber();
 			
-			int rightVerticeID = i.getRightEnd().verticeInstance.getVertexID();
+			int rightVerticeID = i.getRightEnd().vertexInstance.getVertexID();
 			int rightPortID = i.getRightEnd().getPortNumber();
 			
 			Port whitePortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.White);
@@ -63,6 +65,77 @@ public class BmmAlgorithm {
 		
 		
 		return dataContainer.getListOfEdges();
+	}
+	
+	public void runBMM() 
+	{	
+		int round = 1;
+		while(isConverged() == 1) 
+		{
+			for(Vertex i : dataContainer.getListOfVertices())
+			{
+				// Round 2k-1
+				if(round % 2 == 1) 
+				{
+					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR && round <= i.getDegree()) 
+					{
+						// send message to port v(round)
+					}
+					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR && round > i.getDegree()) 
+					{
+						i.setVertexStatus(status.US);
+					}
+					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.MR) 
+					{
+						// Send matched to all ports
+						i.setVertexStatus(status.MS);
+					}
+					if(i.getVertexColour() == colour.Black && i.getVertexStatus() == status.UR) 
+					{
+						/*
+						// receive matched
+						if() 
+						{
+						
+						}
+						// receive proposal
+						if() 
+						{
+							
+						}
+						*/
+					}
+					
+				}
+				// Round 2k
+				else if(round % 2 == 0) 
+				{
+					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR) 
+					{
+						// if received message message is accept
+						i.setVertexStatus(status.MR);
+					}
+					// To Do missing if 
+					if(i.getVertexColour() == colour.Black && i.getVertexStatus() == status.UR) 
+					{
+						// m(v) != 0 
+						// if() --> do: i = min M(v) and send accept to port v(i) and 
+						// i.getVertexStatus() == status.MS;
+						// x(v) == 0
+						// if() --> do: i.getVertexStatus() == status.US;
+						
+					}		
+				}	
+			}
+			
+			round++;
+		}
+		
+	}
+	
+	public int isConverged() 
+	{
+		return 1;
 	}
 	
 	

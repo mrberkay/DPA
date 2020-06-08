@@ -3,10 +3,10 @@ package graph;
 public class Port {
  
 	int portNumber;
-	public Vertex verticeInstance;
+	public Vertex vertexInstance;
 	
 	public Port(Vertex node, int portNumber) {
-		this.verticeInstance= node;
+		this.vertexInstance= node;
 		this.portNumber=portNumber;
 	}
 
@@ -19,11 +19,11 @@ public class Port {
 	}
 
 	public Vertex getVerticeInstance() {
-		return verticeInstance;
+		return vertexInstance;
 	}
 
-	public void setVerticeInstance(Vertex verticeInstance) {
-		this.verticeInstance = verticeInstance;
+	public void setVerticeInstance(Vertex vertexInstance) {
+		this.vertexInstance = vertexInstance;
 	}
 	
 	

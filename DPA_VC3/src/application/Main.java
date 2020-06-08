@@ -30,9 +30,9 @@ public class Main {
 		for(Edge i: dataContainer.getListOfEdges()) 
 		{
 			System.out.println("Edge" + 
-			"  " + i.getLeftEnd().verticeInstance.getVertexID() +
+			"  " + i.getLeftEnd().vertexInstance.getVertexID() +
 				"." +	i.getLeftEnd().getPortNumber() +
-			" <---> " + i.getRightEnd().verticeInstance.getVertexID() +
+			" <---> " + i.getRightEnd().vertexInstance.getVertexID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
 		
@@ -46,10 +46,10 @@ public class Main {
 		
 		for(Edge i: virtualNetwork) 
 		{
-			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVertexColour() + " "
-					+ i.getLeftEnd().verticeInstance.getVertexID() +
+			System.out.println("Edge " + i.getLeftEnd().vertexInstance.getVertexColour() + " "
+					+ i.getLeftEnd().vertexInstance.getVertexID() +
 				"." +	i.getLeftEnd().getPortNumber() +
-			" <---> " + i.getRightEnd().verticeInstance.getVertexColour() + " " + i.getRightEnd().verticeInstance.getVertexID() +
+			" <---> " + i.getRightEnd().vertexInstance.getVertexColour() + " " + i.getRightEnd().vertexInstance.getVertexID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
 		
