@@ -15,9 +15,9 @@ public class Samples {
 		dataContainer.clearLists();
 		
 		// Create vertices
-		Vertice vertice1 = new Vertice (1,2);
-		Vertice vertice2 = new Vertice (2,1);
-		Vertice vertice3 = new Vertice (3,1);
+		Vertex vertice1 = new Vertex (1,2);
+		Vertex vertice2 = new Vertex (2,1);
+		Vertex vertice3 = new Vertex (3,1);
 		// Add vertices to database
 		dataContainer.addVertice(vertice1);
 		dataContainer.addVertice(vertice2);
@@ -46,12 +46,12 @@ public class Samples {
 		// Clear lists first
 		dataContainer.clearLists();
 		// Create vertices
-		Vertice vertice1 = new Vertice (1,1);
-		Vertice vertice2 = new Vertice (2,1);
-		Vertice vertice3 = new Vertice (3,1);
-		Vertice vertice4 = new Vertice (4,5);
-		Vertice vertice5 = new Vertice (5,2);
-		Vertice vertice6 = new Vertice (6,2);
+		Vertex vertice1 = new Vertex (1,1);
+		Vertex vertice2 = new Vertex (2,1);
+		Vertex vertice3 = new Vertex (3,1);
+		Vertex vertice4 = new Vertex (4,5);
+		Vertex vertice5 = new Vertex (5,2);
+		Vertex vertice6 = new Vertex (6,2);
 		// Add vertices to database
 		dataContainer.addVertice(vertice1);
 		dataContainer.addVertice(vertice2);
@@ -111,7 +111,7 @@ public class Samples {
 		return dataContainer.getListOfPorts();
 	}
 	
-	public List<Vertice> getListOfVertices() 
+	public List<Vertex> getListOfVertices() 
 	{
 		return dataContainer.getListOfVertices();
 	}

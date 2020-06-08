@@ -5,8 +5,8 @@ import java.util.List;
 import database.Data;
 import graph.Edge;
 import graph.Port;
-import graph.Vertice;
-import graph.Vertice.colour;
+import graph.Vertex;
+import graph.Vertex.colour;
 
 public class BmmAlgorithm {
 
@@ -14,12 +14,12 @@ public class BmmAlgorithm {
 	colour white = colour.White;
 	colour black = colour.Black;
 	
-	public List<Edge> createVirtualNetwork(List<Vertice> graph, List<Edge> graphEdges) {
+	public List<Edge> createVirtualNetwork(List<Vertex> graph, List<Edge> graphEdges) {
 		
-		for(Vertice i: graph) 
+		for(Vertex i: graph) 
 		{
-			Vertice whiteVertice = new Vertice (i.getVerticeID(),i.getDegree(), white);
-			Vertice blackVertice = new Vertice (i.getVerticeID(),i.getDegree(), black);
+			Vertex whiteVertice = new Vertex (i.getVertexID(),i.getDegree(), white);
+			Vertex blackVertice = new Vertex (i.getVertexID(),i.getDegree(), black);
 			dataContainer.addVertice(blackVertice);
 			dataContainer.addVertice(whiteVertice);	
 				for(int k = 0; k < i.getDegree() ; k++) 
@@ -34,8 +34,8 @@ public class BmmAlgorithm {
 		
 		for(Port i : dataContainer.getListOfPorts()) 
 		{
-			System.out.println(i.verticeInstance.getVerticeColour() + " " + i.verticeInstance.getVerticeID()
-			+ "." + i.getPortNumber());
+			System.out.println(i.verticeInstance.getVertexColour() + " " + i.verticeInstance.getVertexID()
+			+ "." + i.getPortNumber() + "  State: " + i.verticeInstance.getVertexStatus());
 		}
 		
 
@@ -44,10 +44,10 @@ public class BmmAlgorithm {
 		
 		for(Edge i: graphEdges) 
 		{
-			int leftVerticeID = i.getLeftEnd().verticeInstance.getVerticeID();
+			int leftVerticeID = i.getLeftEnd().verticeInstance.getVertexID();
 			int leftPortID = i.getLeftEnd().getPortNumber();
 			
-			int rightVerticeID = i.getRightEnd().verticeInstance.getVerticeID();
+			int rightVerticeID = i.getRightEnd().verticeInstance.getVertexID();
 			int rightPortID = i.getRightEnd().getPortNumber();
 			
 			Port whitePortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.White);

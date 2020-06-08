@@ -6,7 +6,7 @@ import java.util.List;
 
 import bmm.BmmAlgorithm;
 import database.Data;
-import graph.Vertice;
+import graph.Vertex;
 import graph.Port;
 import graph.Samples;
 
@@ -23,16 +23,16 @@ public class Main {
 		dataContainer.addListOfEdges(sample1.getListOfEdges());
 		
 		System.out.println("Created Graph:");
-		System.out.println("number of nodes in graph: " + dataContainer.getListOfVertices().size());
+		System.out.println("number of vertices in graph: " + dataContainer.getListOfVertices().size());
 		System.out.println("number of ports in graph: " + dataContainer.getListOfPorts().size());
 		System.out.println("number of edges in graph: " + dataContainer.getListOfEdges().size());
 		
 		for(Edge i: dataContainer.getListOfEdges()) 
 		{
 			System.out.println("Edge" + 
-			"  " + i.getLeftEnd().verticeInstance.getVerticeID() +
+			"  " + i.getLeftEnd().verticeInstance.getVertexID() +
 				"." +	i.getLeftEnd().getPortNumber() +
-			" <---> " + i.getRightEnd().verticeInstance.getVerticeID() +
+			" <---> " + i.getRightEnd().verticeInstance.getVertexID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
 		
@@ -46,12 +46,14 @@ public class Main {
 		
 		for(Edge i: virtualNetwork) 
 		{
-			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVerticeColour() + " "
-					+ i.getLeftEnd().verticeInstance.getVerticeID() +
+			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVertexColour() + " "
+					+ i.getLeftEnd().verticeInstance.getVertexID() +
 				"." +	i.getLeftEnd().getPortNumber() +
-			" <---> " + i.getRightEnd().verticeInstance.getVerticeColour() + " " + i.getRightEnd().verticeInstance.getVerticeID() +
+			" <---> " + i.getRightEnd().verticeInstance.getVertexColour() + " " + i.getRightEnd().verticeInstance.getVertexID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
+		
+		
 		
 	
 	}

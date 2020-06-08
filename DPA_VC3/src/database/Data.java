@@ -5,13 +5,13 @@ import java.util.List;
 
 import graph.Edge;
 import graph.Port;
-import graph.Vertice;
-import graph.Vertice.colour;
+import graph.Vertex;
+import graph.Vertex.colour;
 
 public class Data {
 	
 	
-	List<Vertice> listOfVertices = new ArrayList<Vertice>(); 
+	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
 	List<Port> listOfPorts = new ArrayList<Port>();
 	List<Edge> listOfEdges = new ArrayList<Edge>();
 	
@@ -29,17 +29,17 @@ public class Data {
 		this.listOfEdges = listOfEdges;
 	} 
 	*/
-	public void addVertice(Vertice vertice) 
+	public void addVertice(Vertex vertice) 
 	{
 		listOfVertices.add(vertice);
 	}
 	
-	public List<Vertice> getListOfVertices() 
+	public List<Vertex> getListOfVertices() 
 	{
 		return listOfVertices;
 	}
 	
-	public List<Vertice> addListOfVertices(List<Vertice> oldList) 
+	public List<Vertex> addListOfVertices(List<Vertex> oldList) 
 	{
 		return listOfVertices = oldList;
 	}
@@ -78,9 +78,9 @@ public class Data {
 	{
 		for(Port desiredPort : ports) 
 		{
-			if(desiredPort.verticeInstance.getVerticeID() == verticeID && 
+			if(desiredPort.verticeInstance.getVertexID() == verticeID && 
 			   desiredPort.getPortNumber() == portID && 
-			   desiredPort.getVerticeInstance().getVerticeColour() == desiredColour) 
+			   desiredPort.getVerticeInstance().getVertexColour() == desiredColour) 
 			{
 				return desiredPort;
 			}
