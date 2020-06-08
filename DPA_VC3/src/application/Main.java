@@ -15,7 +15,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Samples sample1 = new Samples();
-		sample1.createGraph3();
+		//sample1.createGraph3();
+		sample1.createGraph6();
 		Data dataContainer = new Data();
 		dataContainer.addListOfVertices(sample1.getListOfVertices());
 		dataContainer.addListOfPorts(sample1.getListOfPorts());
@@ -45,10 +46,10 @@ public class Main {
 		
 		for(Edge i: virtualNetwork) 
 		{
-			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVerticeColour() +
-			"  " + i.getLeftEnd().verticeInstance.getVerticeID() +
+			System.out.println("Edge " + i.getLeftEnd().verticeInstance.getVerticeColour() + " "
+					+ i.getLeftEnd().verticeInstance.getVerticeID() +
 				"." +	i.getLeftEnd().getPortNumber() +
-			" <---> " + i.getRightEnd().verticeInstance.getVerticeColour() + i.getRightEnd().verticeInstance.getVerticeID() +
+			" <---> " + i.getRightEnd().verticeInstance.getVerticeColour() + " " + i.getRightEnd().verticeInstance.getVerticeID() +
 				"." +	i.getRightEnd().getPortNumber());
 		}
 		
