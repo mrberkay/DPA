@@ -67,30 +67,44 @@ public class BmmAlgorithm {
 		return dataContainer.getListOfEdges();
 	}
 	
+	public void print() 
+	{
+		int round_number = 1;
+		for(Vertex i : dataContainer.getListOfVertices()) 
+		{
+			System.out.println("Current Vertex " + i.getVertexID() + " Sends from Port: " + round_number);
+			Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), i, round_number);
+			System.out.println("Target Port: " + targetPort.vertexInstance.getVertexID() + "." + targetPort.getPortNumber());
+		}
+	}
+	
 	public void runBMM() 
 	{	
 		int round = 1;
 		while(isConverged() == 1) 
 		{
-			for(Vertex i : dataContainer.getListOfVertices())
+			for(Vertex vertex : dataContainer.getListOfVertices())
 			{
 				// Round 2k-1
 				if(round % 2 == 1) 
 				{
-					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR && round <= i.getDegree()) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && round <= vertex.getDegree()) 
 					{
+						// get target port
+						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, round);
 						// send message to port v(round)
+						
 					}
-					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR && round > i.getDegree()) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && round > vertex.getDegree()) 
 					{
-						i.setVertexStatus(status.US);
+						vertex.setVertexStatus(status.US);
 					}
-					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.MR) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
 						// Send matched to all ports
-						i.setVertexStatus(status.MS);
+						vertex.setVertexStatus(status.MS);
 					}
-					if(i.getVertexColour() == colour.Black && i.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{
 						/*
 						// receive matched
@@ -110,13 +124,13 @@ public class BmmAlgorithm {
 				// Round 2k
 				else if(round % 2 == 0) 
 				{
-					if(i.getVertexColour() == colour.White && i.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
 						// if received message message is accept
-						i.setVertexStatus(status.MR);
+						vertex.setVertexStatus(status.MR);
 					}
 					// To Do missing if 
-					if(i.getVertexColour() == colour.Black && i.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{
 						// m(v) != 0 
 						// if() --> do: i = min M(v) and send accept to port v(i) and 

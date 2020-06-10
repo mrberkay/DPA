@@ -89,6 +89,24 @@ public class Data {
 		return null;	
 	}
 	
+	public Port getTargetPort(List<Edge> edges, Vertex vertex, int myPortNumber) 
+	{
+		for(Edge i : edges) 
+		{
+			if(i.getLeftEnd().vertexInstance.equals(vertex) && (i.getLeftEnd().getPortNumber() == myPortNumber)) 
+			{
+				return i.getRightEnd();
+			}
+			else if(i.getRightEnd().vertexInstance.equals(vertex) && (i.getRightEnd().getPortNumber() == myPortNumber)) 
+			{
+				return i.getLeftEnd();
+			}
+		}
+		System.out.println("Target Port NOT FOUND");
+		return null;
+	}
+	
+	
 	public void clearLists() 
 	{
 		listOfVertices.clear();

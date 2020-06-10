@@ -54,7 +54,7 @@ public class Main {
 		}
 		
 		
-		
+		algorithm.print();
 	
 	}
 	
