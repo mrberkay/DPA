@@ -29,9 +29,9 @@ public class Data {
 		this.listOfEdges = listOfEdges;
 	} 
 	*/
-	public void addVertice(Vertex vertice) 
+	public void addVertice(Vertex vertex) 
 	{
-		listOfVertices.add(vertice);
+		listOfVertices.add(vertex);
 	}
 	
 	public List<Vertex> getListOfVertices() 

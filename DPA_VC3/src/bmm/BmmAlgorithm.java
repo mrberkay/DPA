@@ -13,6 +13,7 @@ import graph.Vertex.status;
 public class BmmAlgorithm {
 
 	Data dataContainer = new Data();
+	NetworkBuffer networkBuffer = new NetworkBuffer();
 	colour white = colour.White;
 	colour black = colour.Black;
 	
@@ -66,17 +67,18 @@ public class BmmAlgorithm {
 		
 		return dataContainer.getListOfEdges();
 	}
-	
+	/*
 	public void print() 
 	{
 		int round_number = 1;
 		for(Vertex i : dataContainer.getListOfVertices()) 
 		{
-			System.out.println("Current Vertex " + i.getVertexID() + " Sends from Port: " + round_number);
+			System.out.println("Current Vertex " + i.getVertexColour() + " " + i.getVertexID() + " Sends from Port: " + round_number);
 			Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), i, round_number);
-			System.out.println("Target Port: " + targetPort.vertexInstance.getVertexID() + "." + targetPort.getPortNumber());
+			System.out.println("Target Port: " + targetPort.vertexInstance.getVertexColour() + targetPort.vertexInstance.getVertexID() + "." + targetPort.getPortNumber());
 		}
 	}
+	*/
 	
 	public void runBMM() 
 	{	
@@ -93,7 +95,7 @@ public class BmmAlgorithm {
 						// get target port
 						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, round);
 						// send message to port v(round)
-						
+						networkBuffer.addMessage(vertex.sendProposal(targetPort));
 					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && round > vertex.getDegree()) 
 					{
@@ -101,7 +103,13 @@ public class BmmAlgorithm {
 					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
+						// Get port MR(i) to add in solution
 						// Send matched to all ports
+						for(int i = 1; i <= vertex.getDegree(); i++) 
+						{
+							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, i);
+							networkBuffer.addMessage(vertex.sendMatched(targetPort));
+						}
 						vertex.setVertexStatus(status.MS);
 					}
 					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
@@ -127,6 +135,7 @@ public class BmmAlgorithm {
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
 						// if received message message is accept
+						
 						vertex.setVertexStatus(status.MR);
 					}
 					// To Do missing if 

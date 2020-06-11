@@ -3,6 +3,8 @@ package graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import bmm.Message;
+
 public class Vertex {
 	
 	int vertexID;
@@ -85,10 +87,11 @@ public class Vertex {
 	
 	
 	////// Messaging //////
-	public String sendProposal() 
+	public Message sendProposal(Port targetPort) 
 	{
 		String proposal = "proposal";
-		return proposal;
+		Message m = new Message(proposal, targetPort);
+		return m;
 	}
 	
 	public void recieveProposal(String proposal) throws Exception 
@@ -97,10 +100,11 @@ public class Vertex {
 		else throw new Exception("Wrong message recieved: proposal");
 	}
 	
-	public String sendMatched() 
+	public Message sendMatched(Port targetPort) 
 	{
 		String matched = "matched";
-		return matched;
+		Message m = new Message(matched, targetPort);
+		return m;
 	}
 	
 	public void recieveMatched(String matched) throws Exception 
@@ -117,6 +121,8 @@ public class Vertex {
 	
 	public void recieveAccept(String accept) throws Exception 
 	{
+		
+		
 		if(accept.equalsIgnoreCase("accept")) {messageContainer.add(accept);}
 		else throw new Exception("Wrong message recieved: accept");
 	}
