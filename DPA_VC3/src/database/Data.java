@@ -14,6 +14,7 @@ public class Data {
 	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
 	List<Port> listOfPorts = new ArrayList<Port>();
 	List<Edge> listOfEdges = new ArrayList<Edge>();
+	List<Port> matchedPorts = new ArrayList<Port>();
 	
 	
 	public Data() {
@@ -47,6 +48,11 @@ public class Data {
 	public void addPort(Port port) 
 	{
 		listOfPorts.add(port);
+	}
+	
+	public void addMatchedPort(Port port) 
+	{
+		matchedPorts.add(port);
 	}
 	
 	public List<Port> getListOfPorts() 

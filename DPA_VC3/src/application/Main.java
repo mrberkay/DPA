@@ -55,6 +55,15 @@ public class Main {
 		
 		
 		//algorithm.runBMM();
+		
+		String s = "berkay";
+		int a = 1;
+		String s1 = Integer.toString(a)+s;
+		System.out.println(s1);
+		String s2 = s1.substring(0,1);
+		System.out.println(s2);
+		int first = Integer.parseInt(s2);
+		System.out.println(first);
 	
 	}
 	

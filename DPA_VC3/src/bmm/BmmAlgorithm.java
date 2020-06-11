@@ -16,6 +16,8 @@ public class BmmAlgorithm {
 	NetworkBuffer networkBuffer = new NetworkBuffer();
 	colour white = colour.White;
 	colour black = colour.Black;
+	List <String> localMessages = new ArrayList<String>();
+	List <Port> solution = new ArrayList<Port>();
 	
 	public List<Edge> createVirtualNetwork(List<Vertex> graph, List<Edge> graphEdges) {
 		
@@ -80,84 +82,103 @@ public class BmmAlgorithm {
 	}
 	*/
 	
+	List<Vertex> bipatiteVertex = dataContainer.getListOfVertices();
+	
 	public void runBMM() 
 	{	
+		int k = 1;
 		int round = 1;
-		while(isConverged() == 1) 
+		while(isConverged() == 0) 
 		{
-			for(Vertex vertex : dataContainer.getListOfVertices())
-			{
-				// Round 2k-1
+			for(Vertex vertex : bipatiteVertex)
+			{ 
+				// Odd Round
 				if(round % 2 == 1) 
 				{
-					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && round <= vertex.getDegree()) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k <= vertex.getDegree()) 
 					{
 						// get target port
-						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, round);
+						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, k);
 						// send message to port v(round)
-						networkBuffer.addMessage(vertex.sendProposal(targetPort));
+						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
 					}
-					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && round > vertex.getDegree()) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
 					{
 						vertex.setVertexStatus(status.US);
 					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
-						// Get port MR(i) to add in solution
 						// Send matched to all ports
 						for(int i = 1; i <= vertex.getDegree(); i++) 
 						{
 							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, i);
-							networkBuffer.addMessage(vertex.sendMatched(targetPort));
-						}
+							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.vertexInstance));
+						} 
 						vertex.setVertexStatus(status.MS);
 					}
 					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
-					{
-						/*
+					{		
+						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						// receive matched
-						if() 
+						for(String currentMessage : localMessages) 
 						{
-						
+							int recievedPortNumber = Integer.parseInt(currentMessage.substring(0, 1));
+							String m = currentMessage.substring(1);
+							if(m.equalsIgnoreCase("matched")) 
+							{
+								vertex.removeXV(recievedPortNumber);
+							}
+							if(m.equalsIgnoreCase("proposal")) 
+							{
+								vertex.fillMV(recievedPortNumber);
+							}
 						}
-						// receive proposal
-						if() 
-						{
-							
-						}
-						*/
 					}
+					round++;
 					
 				}
-				// Round 2k
+				// Even Round 
 				else if(round % 2 == 0) 
 				{
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
-						// if received message message is accept
-						
-						vertex.setVertexStatus(status.MR);
+						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
+						for(String currentMessage : localMessages) 
+						{	
+							String m = currentMessage.substring(1);
+							if(m.equalsIgnoreCase("accept")) 
+							{
+								//solution.add(currentMessage.ge) ToDo
+								vertex.setVertexStatus(status.MR);
+							}
+						}
 					}
-					// To Do missing if 
 					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{
-						// m(v) != 0 
-						// if() --> do: i = min M(v) and send accept to port v(i) and 
-						// i.getVertexStatus() == status.MS;
-						// x(v) == 0
-						// if() --> do: i.getVertexStatus() == status.US;
+						if(vertex.getMV().size() != 0) 
+						{
+							//int j = vertex.getMV().
+						}
 						
 					}		
 				}	
-			}
-			
-			round++;
+				round++;
+			}	
+			k++;		
 		}
 		
 	}
 	
 	public int isConverged() 
 	{
+		for(Vertex vertex : bipatiteVertex) 
+		{
+			if(status.MR == vertex.getVertexStatus() || status.UR == vertex.getVertexStatus()) 
+			{
+				return 0;
+			}
+			
+		}
 		return 1;
 	}
 	

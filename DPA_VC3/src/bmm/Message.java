@@ -1,16 +1,19 @@
 package bmm;
 
 import graph.Port;
+import graph.Vertex;
 
 public class Message {
 	
 	String messageContent;
 	Port targetPort;
+	Vertex targetVertex;
 	
-	public Message(String message, Port targetPort) {
+	public Message(String message, Port targetPort, Vertex targetVertex) {
 		super();
 		this.messageContent = message;
 		this.targetPort = targetPort;
+		this.targetVertex = targetVertex;
 	}
 	
 	public Port getTargetPortFromMessage() 
@@ -21,6 +24,11 @@ public class Message {
 	public String getMessageContent() 
 	{
 		return messageContent;
+	}
+	
+	public Vertex getTargetVertex() 
+	{
+		return targetVertex;
 	}
 
 

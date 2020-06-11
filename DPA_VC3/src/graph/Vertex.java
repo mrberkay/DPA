@@ -12,7 +12,9 @@ public class Vertex {
 	int degree;
 	colour vertexColour;
 	status vertexStatus;
-	List<String> messageContainer; 
+	List<String> messageContainer;
+	List<Integer> mV;
+	List<Integer> xV;
 
 	
 	/* 
@@ -25,7 +27,10 @@ public class Vertex {
 	
 	 public enum colour{ Black, White }
 	 
-	 
+	 public void fillxV(int degree) 
+	 {
+
+	 }
 	
 	 
 	public Vertex(int vertexID, int degree, colour vertexColour) {
@@ -37,6 +42,12 @@ public class Vertex {
 		this.vertexStatus = status.UR;
 		// Vertex can receive multiple messages in one round
 		this.messageContainer = new ArrayList<String>();
+		this.mV = new ArrayList<Integer>();
+		this.xV = new ArrayList<Integer>();
+		for(int i = 1; i <= degree; i++) 
+		{
+			 xV.add(i);
+		}
 	}
 	
 	public Vertex(int nodeID, int degree) {
@@ -87,10 +98,10 @@ public class Vertex {
 	
 	
 	////// Messaging //////
-	public Message sendProposal(Port targetPort) 
+	public Message sendProposal(Port targetPort, Vertex targetVertex) 
 	{
 		String proposal = "proposal";
-		Message m = new Message(proposal, targetPort);
+		Message m = new Message(proposal, targetPort, targetVertex);
 		return m;
 	}
 	
@@ -100,10 +111,10 @@ public class Vertex {
 		else throw new Exception("Wrong message recieved: proposal");
 	}
 	
-	public Message sendMatched(Port targetPort) 
+	public Message sendMatched(Port targetPort, Vertex targetVertex) 
 	{
 		String matched = "matched";
-		Message m = new Message(matched, targetPort);
+		Message m = new Message(matched, targetPort, targetVertex);
 		return m;
 	}
 	
@@ -119,15 +130,35 @@ public class Vertex {
 		return accept;
 	}
 	
-	public void recieveAccept(String accept) throws Exception 
+	public boolean recieveAccept(List<String> allMessages)
 	{
-		
-		
-		if(accept.equalsIgnoreCase("accept")) {messageContainer.add(accept);}
-		else throw new Exception("Wrong message recieved: accept");
+		if(allMessages.contains("accept")) 
+		{
+			return true;
+		}
+		else 
+			return false;
 	}
 	 
-
+	public void removeXV(int toRemove) 
+	{
+		xV.remove(toRemove);
+	}
+	
+	public void fillMV(int toFill) 
+	{
+		mV.add(toFill);
+	}
+	
+	public List<Integer> getMV()
+	{
+		return mV;
+	}
+	
+	public List<Integer> getXV()
+	{
+		return xV;
+	}
  
  
 
