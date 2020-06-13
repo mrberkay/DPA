@@ -15,6 +15,7 @@ public class Data {
 	List<Port> listOfPorts = new ArrayList<Port>();
 	List<Edge> listOfEdges = new ArrayList<Edge>();
 	List<Port> matchedPorts = new ArrayList<Port>();
+	List<Vertex> sortedList = new ArrayList<Vertex>();
 	
 	
 	public Data() {
@@ -119,7 +120,27 @@ public class Data {
 		listOfPorts.clear();
 		listOfEdges.clear();
 	}
-	
-	
+	/*
+	public List<Vertex> sortVerticesByColor(List<Vertex> listToSort)
+	{
+		
+		for(Vertex i : listToSort) 
+		{
+			if(i.getVertexColour() == colour.White) 
+			{
+				sortedList.add(i);
+			}
+		}
+		for(Vertex i : listToSort) 
+		{
+			if(i.getVertexColour() == colour.Black) 
+			{
+				sortedList.add(i);
+			}
+		}
+		
+		return sortedList;
+	}
+	*/
 
 }

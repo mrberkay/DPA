@@ -56,10 +56,12 @@ public class Main {
 		}
 		
 		
+		algorithm.sortVerticesByColor();
 		algorithm.runBMM();
+		
 		List<Vertex> bipatiteVertex = algorithm.sendResultGraph();
 		
-
+		
 			
 		for(Vertex i : bipatiteVertex) 
 		{

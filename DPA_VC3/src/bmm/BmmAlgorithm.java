@@ -1,6 +1,5 @@
 package bmm;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,8 +83,39 @@ public class BmmAlgorithm {
 	}
 	*/
 	
-	List<Vertex> bipatiteVertex = dataContainer.getListOfVertices();
+	List<Vertex> listToSort = dataContainer.getListOfVertices();
+	List<Vertex> bipatiteVertex = new ArrayList<Vertex>();
 	
+	public void sortVerticesByColor() 
+	{
+		for(Vertex i : listToSort) 
+		{
+			if(i.getVertexColour() == colour.White) 
+			{
+				bipatiteVertex.add(i);
+			}
+		}
+		for(Vertex i : listToSort) 
+		{
+			if(i.getVertexColour() == colour.Black) 
+			{
+				bipatiteVertex.add(i);
+			}
+		}
+	}
+	/*
+	public void natascha() 
+	{
+		for(Vertex i : bipatiteVertex) 
+		{
+			List<Integer> xV = i.getXV();
+			for(int e : xV) 
+			{
+				System.out.println("xV: " + e);
+			}
+		}
+	}
+	*/
 	public void runBMM() 
 	{	
 		int k = 1;
@@ -94,7 +124,7 @@ public class BmmAlgorithm {
 		{
 			System.out.println("Round: " + round);
 			System.out.println("k: " + k);
-			
+			k = round/2+1;
 			for(Vertex vertex : bipatiteVertex)
 			{ 
 				// Odd Round
@@ -108,12 +138,12 @@ public class BmmAlgorithm {
 						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
 						System.out.println("Odd Round if 1");
 					}
-					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
+					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
 					{
 						vertex.setVertexStatus(status.US);
 						System.out.println("Odd Round if 2");
 					}
-					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
+					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
 						// Send matched to all ports
 						for(int i = 1; i <= vertex.getDegree(); i++) 
@@ -124,16 +154,15 @@ public class BmmAlgorithm {
 						vertex.setVertexStatus(status.MS);
 						System.out.println("Odd Round if 3");
 					}
-					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
+					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{		
-						//System.out.println("BERKAY");
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						// receive matched
 						for(String currentMessage : localMessages) 
 						{
 							int recievedPortNumber = Integer.parseInt(currentMessage.substring(0, 1));
 							String m = currentMessage.substring(1);
-							if(m.equalsIgnoreCase("matched") && !(vertex.getXV().isEmpty())) 
+							if(m.equalsIgnoreCase("matched")) 
 							{
 								vertex.removeXV(recievedPortNumber);
 								System.out.println("Odd Round if 4");
@@ -148,29 +177,26 @@ public class BmmAlgorithm {
 					
 					
 				}
-				round++;
+				//round++;
 				// Even Round 
 				if(round % 2 == 0) 
 				{
-					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && !(vertex.getMV().isEmpty())) 
 					{
-						if(!(vertex.getMV().isEmpty())) 
-						{
 							int minIndex = vertex.getMV().indexOf(Collections.min(vertex.getMV()));
 							int min_i = vertex.getMV().get(minIndex);
 							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, min_i);
 							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.vertexInstance));
 							vertex.setVertexStatus(status.MS);
-							System.out.println("Even Round if 8");
-						}
-						else if(vertex.getMV().isEmpty()) 
-						{
+							System.out.println("Even Round if 6");
+					}
+					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getXV().size() == 0) 
+					{
 							vertex.setVertexStatus(status.US);
 							System.out.println("Even Round if 7");
-						}
-						
-					}
-					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
+					}			
+					
+					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						for(String currentMessage : localMessages) 
@@ -179,7 +205,7 @@ public class BmmAlgorithm {
 							if(m.equalsIgnoreCase("accept")) 
 							{
 								vertex.setVertexStatus(status.MR);
-								System.out.println("Even Round if 6");
+								System.out.println("Even Round if 8");
 							}
 						}
 					}	
@@ -187,7 +213,7 @@ public class BmmAlgorithm {
 				
 			}
 			round++;
-			k++;		
+			//k++;		
 		}
 		
 	}
