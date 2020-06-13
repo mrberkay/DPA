@@ -55,10 +55,8 @@ public class Main {
 				"." +	i.getRightEnd().getPortNumber());
 		}
 		
-		
-		algorithm.sortVerticesByColor();
+
 		algorithm.runBMM();
-		
 		List<Vertex> bipatiteVertex = algorithm.sendResultGraph();
 		
 		

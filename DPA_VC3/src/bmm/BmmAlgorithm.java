@@ -17,7 +17,12 @@ public class BmmAlgorithm {
 	colour white = colour.White;
 	colour black = colour.Black;
 	List <String> localMessages = new ArrayList<String>();
-	List <Port> solution = new ArrayList<Port>();
+	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
+	List<Port> listOfPorts = new ArrayList<Port>();
+	List<Edge> listOfEdges = new ArrayList<Edge>();
+	
+	List<Vertex> listToSort = new ArrayList<Vertex>();
+	List<Vertex> bipatiteVertex = new ArrayList<Vertex>();
 	
 	public List<Edge> createVirtualNetwork(List<Vertex> graph, List<Edge> graphEdges) {
 		
@@ -26,27 +31,18 @@ public class BmmAlgorithm {
 			Vertex whiteVertice = new Vertex (i.getVertexID(),i.getDegree(), white);
 			Vertex blackVertice = new Vertex (i.getVertexID(),i.getDegree(), black);
 			
-			dataContainer.addVertice(whiteVertice);	
-			dataContainer.addVertice(blackVertice);
+			listOfVertices.add(whiteVertice);	
+			listOfVertices.add(blackVertice);
 				for(int k = 0; k < i.getDegree() ; k++) 
 				{
 					Port wp = new Port(whiteVertice, k+1);
 					Port bp = new Port(blackVertice, k+1);
-					dataContainer.addPort(wp);
-					dataContainer.addPort(bp);
+					listOfPorts.add(wp);
+					listOfPorts.add(bp);
 				}
 		}		
-		//System.out.println(dataContainer.getListOfVertices().size());
 		
-		for(Port i : dataContainer.getListOfPorts()) 
-		{
-			System.out.println(i.vertexInstance.getVertexColour() + " " + i.vertexInstance.getVertexID()
-			+ "." + i.getPortNumber() + "  State: " + i.vertexInstance.getVertexStatus());
-		}
-		
-
-		System.out.println("total number of ports in Virtual Network (black and white): " + dataContainer.getListOfPorts().size());
-		//System.out.println("number of edges (old graph): " + graphEdges.size());
+		System.out.println("total number of ports in Virtual Network (black and white): " + listOfPorts.size());
 		
 		for(Edge i: graphEdges) 
 		{
@@ -56,38 +52,31 @@ public class BmmAlgorithm {
 			int rightVerticeID = i.getRightEnd().vertexInstance.getVertexID();
 			int rightPortID = i.getRightEnd().getPortNumber();
 			
-			Port whitePortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.White);
-			Port blackPortLeft = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), leftVerticeID, leftPortID, colour.Black);
-			Port whitePortRight = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), rightVerticeID, rightPortID, colour.White);
-			Port blackPortRight = dataContainer.getPortByVertice(dataContainer.getListOfPorts(), rightVerticeID, rightPortID, colour.Black);
+			Port whitePortLeft = dataContainer.getPortByVertice(listOfPorts, leftVerticeID, leftPortID, colour.White);
+			Port blackPortLeft = dataContainer.getPortByVertice(listOfPorts, leftVerticeID, leftPortID, colour.Black);
+			Port whitePortRight = dataContainer.getPortByVertice(listOfPorts, rightVerticeID, rightPortID, colour.White);
+			Port blackPortRight = dataContainer.getPortByVertice(listOfPorts, rightVerticeID, rightPortID, colour.Black);
 			
 			Edge edge1 = new Edge(whitePortLeft , blackPortRight);
 			Edge edge2 = new Edge(blackPortLeft , whitePortRight);
-			dataContainer.addEdge(edge1);
-			dataContainer.addEdge(edge2);
+			listOfEdges.add(edge1);
+			listOfEdges.add(edge2);
 		}
 		
 		
-		return dataContainer.getListOfEdges();
+		return listOfEdges;
 	}
-	/*
-	public void print() 
-	{
-		int round_number = 1;
-		for(Vertex i : dataContainer.getListOfVertices()) 
-		{
-			System.out.println("Current Vertex " + i.getVertexColour() + " " + i.getVertexID() + " Sends from Port: " + round_number);
-			Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), i, round_number);
-			System.out.println("Target Port: " + targetPort.vertexInstance.getVertexColour() + targetPort.vertexInstance.getVertexID() + "." + targetPort.getPortNumber());
-		}
-	}
-	*/
+
 	
-	List<Vertex> listToSort = dataContainer.getListOfVertices();
-	List<Vertex> bipatiteVertex = new ArrayList<Vertex>();
+
 	
-	public void sortVerticesByColor() 
+	public List<Vertex> sortWhiteFirst() 
 	{
+		List<Vertex> listToSort = new ArrayList<Vertex>(listOfVertices);
+		List<Vertex> bipatiteVertex = new ArrayList<Vertex>(listOfVertices);
+		listToSort.clear();
+		listToSort.addAll(bipatiteVertex);
+		bipatiteVertex.clear();
 		for(Vertex i : listToSort) 
 		{
 			if(i.getVertexColour() == colour.White) 
@@ -102,38 +91,65 @@ public class BmmAlgorithm {
 				bipatiteVertex.add(i);
 			}
 		}
+		return bipatiteVertex;
 	}
-	/*
-	public void natascha() 
+	
+	public List<Vertex> sortBlackFirst() 
 	{
-		for(Vertex i : bipatiteVertex) 
+		
+		listToSort.clear();
+		listToSort.addAll(bipatiteVertex);
+		bipatiteVertex.clear();
+		for(Vertex i : listToSort) 
 		{
-			List<Integer> xV = i.getXV();
-			for(int e : xV) 
+			if(i.getVertexColour() == colour.Black) 
 			{
-				System.out.println("xV: " + e);
+				bipatiteVertex.add(i);
 			}
 		}
+		for(Vertex i : listToSort) 
+		{
+			if(i.getVertexColour() == colour.White) 
+			{
+				bipatiteVertex.add(i);
+			}
+		}
+		return bipatiteVertex;
 	}
-	*/
+	
+	public void fill() 
+	{
+		for(Vertex i : listOfVertices) 
+		{
+			bipatiteVertex.add(i);
+		}
+		for(Vertex i : listOfVertices) 
+		{
+			listToSort.add(i);
+		}
+	}
+
 	public void runBMM() 
 	{	
+		fill();
 		int k = 1;
-		int round = 1;
+		int timeStep = 1;
 		while(isConverged() == 0) 
 		{
-			System.out.println("Round: " + round);
+			System.out.println("Round: " + timeStep);
 			System.out.println("k: " + k);
-			k = round/2+1;
+			k = timeStep/2+1;
+			if(timeStep % 2 == 1) {bipatiteVertex = sortWhiteFirst();}
+			if(timeStep % 2 == 0) {bipatiteVertex = sortBlackFirst();}
 			for(Vertex vertex : bipatiteVertex)
 			{ 
 				// Odd Round
-				if(round % 2 == 1) 
+				if(timeStep % 2 == 1) 
 				{
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k <= vertex.getDegree()) 
 					{
 						// get target port
-						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, k);
+						Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, k);
 						// send message to port v(round)
 						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
 						System.out.println("Odd Round if 1");
@@ -148,7 +164,7 @@ public class BmmAlgorithm {
 						// Send matched to all ports
 						for(int i = 1; i <= vertex.getDegree(); i++) 
 						{
-							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, i);
+							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, i);
 							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.vertexInstance));
 						} 
 						vertex.setVertexStatus(status.MS);
@@ -167,7 +183,7 @@ public class BmmAlgorithm {
 								vertex.removeXV(recievedPortNumber);
 								System.out.println("Odd Round if 4");
 							}
-							if(m.equalsIgnoreCase("proposal")) 
+							else if(m.equalsIgnoreCase("proposal")) 
 							{
 								vertex.fillMV(recievedPortNumber);
 								System.out.println("Odd Round if 5");
@@ -177,17 +193,19 @@ public class BmmAlgorithm {
 					
 					
 				}
-				//round++;
 				// Even Round 
-				if(round % 2 == 0) 
+				if(timeStep % 2 == 0) 
 				{
-					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && !(vertex.getMV().isEmpty())) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getMV().size() != 0) 
 					{
 							int minIndex = vertex.getMV().indexOf(Collections.min(vertex.getMV()));
 							int min_i = vertex.getMV().get(minIndex);
-							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, min_i);
+							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, min_i);
 							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.vertexInstance));
 							vertex.setVertexStatus(status.MS);
+							//System.out.println("Black vertex " + vertex.getVertexID() + " sent accept to " + 
+							//targetPort.getVerticeInstance().getVertexColour() + " Vertex " +
+							//targetPort.getVerticeInstance().getVertexID() + "." + targetPort.getPortNumber());
 							System.out.println("Even Round if 6");
 					}
 					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getXV().size() == 0) 
@@ -196,7 +214,7 @@ public class BmmAlgorithm {
 							System.out.println("Even Round if 7");
 					}			
 					
-					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						for(String currentMessage : localMessages) 
@@ -212,8 +230,7 @@ public class BmmAlgorithm {
 				}	
 				
 			}
-			round++;
-			//k++;		
+			timeStep++;	
 		}
 		
 	}

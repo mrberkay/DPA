@@ -22,15 +22,6 @@ public class Data {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	/*
-	public Data(List<Vertice> listOfVertices, List<Port> listOfPorts, List<Edge> listOfEdges) {
-		super();
-		this.listOfVertices = listOfVertices;
-		this.listOfPorts = listOfPorts;
-		this.listOfEdges = listOfEdges;
-	} 
-	*/
 	public void addVertice(Vertex vertex) 
 	{
 		listOfVertices.add(vertex);
@@ -120,27 +111,5 @@ public class Data {
 		listOfPorts.clear();
 		listOfEdges.clear();
 	}
-	/*
-	public List<Vertex> sortVerticesByColor(List<Vertex> listToSort)
-	{
-		
-		for(Vertex i : listToSort) 
-		{
-			if(i.getVertexColour() == colour.White) 
-			{
-				sortedList.add(i);
-			}
-		}
-		for(Vertex i : listToSort) 
-		{
-			if(i.getVertexColour() == colour.Black) 
-			{
-				sortedList.add(i);
-			}
-		}
-		
-		return sortedList;
-	}
-	*/
 
 }
