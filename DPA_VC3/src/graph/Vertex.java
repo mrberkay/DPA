@@ -124,12 +124,14 @@ public class Vertex {
 		else throw new Exception("Wrong message recieved: matched");
 	}
 	
-	public String sendAccept() 
+	public Message sendAccept(Port targetPort, Vertex targetVertex) 
 	{
 		String accept = "accept";
-		return accept;
+		Message m = new Message(accept, targetPort, targetVertex);
+		return m;
 	}
-	
+	// TO DO FALSE
+	/*
 	public boolean recieveAccept(List<String> allMessages)
 	{
 		if(allMessages.contains("accept")) 
@@ -139,10 +141,10 @@ public class Vertex {
 		else 
 			return false;
 	}
-	 
+	 */
 	public void removeXV(int toRemove) 
 	{
-		xV.remove(toRemove);
+		xV.remove(new Integer(toRemove));
 	}
 	
 	public void fillMV(int toFill) 

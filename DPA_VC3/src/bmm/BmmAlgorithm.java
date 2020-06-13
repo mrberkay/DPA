@@ -2,6 +2,7 @@ package bmm;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import database.Data;
 import graph.Edge;
@@ -25,8 +26,9 @@ public class BmmAlgorithm {
 		{
 			Vertex whiteVertice = new Vertex (i.getVertexID(),i.getDegree(), white);
 			Vertex blackVertice = new Vertex (i.getVertexID(),i.getDegree(), black);
-			dataContainer.addVertice(blackVertice);
+			
 			dataContainer.addVertice(whiteVertice);	
+			dataContainer.addVertice(blackVertice);
 				for(int k = 0; k < i.getDegree() ; k++) 
 				{
 					Port wp = new Port(whiteVertice, k+1);
@@ -90,6 +92,9 @@ public class BmmAlgorithm {
 		int round = 1;
 		while(isConverged() == 0) 
 		{
+			System.out.println("Round: " + round);
+			System.out.println("k: " + k);
+			
 			for(Vertex vertex : bipatiteVertex)
 			{ 
 				// Odd Round
@@ -101,10 +106,12 @@ public class BmmAlgorithm {
 						Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, k);
 						// send message to port v(round)
 						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
+						System.out.println("Odd Round if 1");
 					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
 					{
 						vertex.setVertexStatus(status.US);
+						System.out.println("Odd Round if 2");
 					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
@@ -115,31 +122,54 @@ public class BmmAlgorithm {
 							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.vertexInstance));
 						} 
 						vertex.setVertexStatus(status.MS);
+						System.out.println("Odd Round if 3");
 					}
 					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{		
+						//System.out.println("BERKAY");
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						// receive matched
 						for(String currentMessage : localMessages) 
 						{
 							int recievedPortNumber = Integer.parseInt(currentMessage.substring(0, 1));
 							String m = currentMessage.substring(1);
-							if(m.equalsIgnoreCase("matched")) 
+							if(m.equalsIgnoreCase("matched") && !(vertex.getXV().isEmpty())) 
 							{
 								vertex.removeXV(recievedPortNumber);
+								System.out.println("Odd Round if 4");
 							}
 							if(m.equalsIgnoreCase("proposal")) 
 							{
 								vertex.fillMV(recievedPortNumber);
+								System.out.println("Odd Round if 5");
 							}
 						}
 					}
-					round++;
+					
 					
 				}
+				round++;
 				// Even Round 
-				else if(round % 2 == 0) 
+				if(round % 2 == 0) 
 				{
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
+					{
+						if(!(vertex.getMV().isEmpty())) 
+						{
+							int minIndex = vertex.getMV().indexOf(Collections.min(vertex.getMV()));
+							int min_i = vertex.getMV().get(minIndex);
+							Port targetPort = dataContainer.getTargetPort(dataContainer.getListOfEdges(), vertex, min_i);
+							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.vertexInstance));
+							vertex.setVertexStatus(status.MS);
+							System.out.println("Even Round if 8");
+						}
+						else if(vertex.getMV().isEmpty()) 
+						{
+							vertex.setVertexStatus(status.US);
+							System.out.println("Even Round if 7");
+						}
+						
+					}
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
@@ -148,22 +178,15 @@ public class BmmAlgorithm {
 							String m = currentMessage.substring(1);
 							if(m.equalsIgnoreCase("accept")) 
 							{
-								//solution.add(currentMessage.ge) ToDo
 								vertex.setVertexStatus(status.MR);
+								System.out.println("Even Round if 6");
 							}
 						}
-					}
-					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
-					{
-						if(vertex.getMV().size() != 0) 
-						{
-							//int j = vertex.getMV().
-						}
-						
-					}		
+					}	
 				}	
-				round++;
-			}	
+				
+			}
+			round++;
 			k++;		
 		}
 		
@@ -181,6 +204,8 @@ public class BmmAlgorithm {
 		}
 		return 1;
 	}
+	
+	public List<Vertex> sendResultGraph(){ return bipatiteVertex;}
 	
 	
 }
