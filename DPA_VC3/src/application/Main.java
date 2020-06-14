@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import graph.Edge;
+import graph.Generator;
+
 import java.util.List;
 
 import bmm.BmmAlgorithm;
@@ -14,7 +16,7 @@ import graph.Samples;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		Samples sample1 = new Samples();
 		//sample1.createGraph3();
@@ -66,9 +68,21 @@ public class Main {
 			System.out.println("Current Vertex " + i.getVertexColour() + " " + i.getVertexID() + " Status: " + i.getVertexStatus() );
 		}
 		
+		Generator r = new Generator();
+		int dimension = r.returnDimension();
+		int[][] adjacencyMatrix = new int[dimension][dimension];
+		adjacencyMatrix = r.createAdjacencyMatrixFromFile();
 		
-	
-	}
-	
+		System.out.println("Imported Adjacency Matrix");
+		r.printAdjacencyMatrix();
+		System.out.println("Number of Ports of each Vertex");
+		r.getAndPrintNumberOfPorts();
+		r.createVertices();
+		
 
+		
+		// Create dimension-times Vertices
+		
+	// End of Main	
+	}
 }

@@ -72,8 +72,6 @@ public class BmmAlgorithm {
 	
 	public List<Vertex> sortWhiteFirst() 
 	{
-		List<Vertex> listToSort = new ArrayList<Vertex>(listOfVertices);
-		List<Vertex> bipatiteVertex = new ArrayList<Vertex>(listOfVertices);
 		listToSort.clear();
 		listToSort.addAll(bipatiteVertex);
 		bipatiteVertex.clear();
