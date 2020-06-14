@@ -77,11 +77,10 @@ public class Main {
 		r.printAdjacencyMatrix();
 		System.out.println("Number of Ports of each Vertex");
 		r.getAndPrintNumberOfPorts();
-		r.createVertices();
+		r.createVerticesAndPorts();
 		
 
 		
-		// Create dimension-times Vertices
 		
 	// End of Main	
 	}

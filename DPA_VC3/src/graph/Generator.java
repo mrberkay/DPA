@@ -13,6 +13,7 @@ public class Generator {
 	public int dimension;
 	public int[][] numberOfPortsMatrix;
 	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
+	List<Port> listOfPorts = new ArrayList<Port>();
 	
 	public int returnDimension() throws Exception 
 	{
@@ -76,19 +77,43 @@ public class Generator {
 		}
 	}
 	
-	public void createVertices() 
+	public void createVerticesAndPorts() 
 	{
 		for(int i = 0; i < dimension; i++) 
 		{
-			Vertex vertice1 = new Vertex (i+1,numberOfPortsMatrix[i][0]);
-			listOfVertices.add(vertice1);
+			Vertex newVertex = new Vertex (i+1,numberOfPortsMatrix[i][0]);
+			listOfVertices.add(newVertex);
+			for(int k = 1; k <= numberOfPortsMatrix[i][0]; k++) 
+			{
+				Port newPort = new Port(newVertex, k);
+				listOfPorts.add(newPort);
+			}
 		}
 		
 		for(Vertex i : listOfVertices) 
 		{
 			System.out.println("Vertex " + i.getVertexID() + " has " + i.getDegree() + " Ports");
 		}
+		for(Port p : listOfPorts) 
+		{
+			System.out.println("Vertex " + p.vertexInstance.getVertexID() + " Port " + p.getPortNumber());
+		}
 		
+	}
+	
+	public void createEdges() 
+	{
+		
+	}
+	
+	public Port getFirstEmptyPort(Vertex vertex) 
+	{
+		return null;
+	}
+	
+	public boolean checkEdge() 
+	{
+		return false;
 	}
 
 	
