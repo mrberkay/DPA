@@ -111,7 +111,7 @@ public class Generator {
 		return null;
 	}
 	
-	public boolean checkEdge() 
+	public boolean checkEdge(Vertex vertex1, Vertex vertex2) 
 	{
 		return false;
 	}
