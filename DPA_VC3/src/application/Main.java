@@ -78,7 +78,7 @@ public class Main {
 		System.out.println("Number of Ports of each Vertex");
 		r.getAndPrintNumberOfPorts();
 		r.createVerticesAndPorts();
-		
+		r.createEdges();
 
 		
 		

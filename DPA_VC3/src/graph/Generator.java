@@ -14,6 +14,7 @@ public class Generator {
 	public int[][] numberOfPortsMatrix;
 	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
 	List<Port> listOfPorts = new ArrayList<Port>();
+	List<Edge> listOfEdges = new ArrayList<Edge>();
 	
 	public int returnDimension() throws Exception 
 	{
@@ -103,11 +104,46 @@ public class Generator {
 	
 	public void createEdges() 
 	{
+		//adjacencyMatrix
+		for(int i = 0; i < dimension; i++) 
+		{
+			for(int k = 0; k < dimension; k++) 
+			{
+				if(adjacencyMatrix[i][k] == 1) 
+				{
+					// create edge
+					Vertex vertex1 = listOfVertices.get(i);
+					Vertex vertex2 = listOfVertices.get(k);
+					Port port1 = getFirstEmptyPort(vertex1);
+					Port port2 = getFirstEmptyPort(vertex2);
+					Edge edge1 = new Edge(port1 , port2);
+					listOfEdges.add(edge1);
+					adjacencyMatrix[k][i] = 0;
+				}
+			}
+		}
 		
+		System.out.println("List of Edges:");
+		for(Edge i: listOfEdges) 
+		{
+			System.out.println( 
+			"  " + i.getLeftEnd().vertexInstance.getVertexID() +
+				"." +	i.getLeftEnd().getPortNumber() +
+			" <---Edge---> " + i.getRightEnd().vertexInstance.getVertexID() +
+				"." +	i.getRightEnd().getPortNumber());
+		}
 	}
 	
 	public Port getFirstEmptyPort(Vertex vertex) 
 	{
+		for(Port p : listOfPorts) 
+		{
+			if(p.getVerticeInstance() == vertex && p.isConnected() == false) 
+			{
+				p.markAsConnected();
+				return p;
+			}
+		}
 		return null;
 	}
 	
@@ -115,6 +151,8 @@ public class Generator {
 	{
 		return false;
 	}
+	
+	
 
 	
 //End of Class	
