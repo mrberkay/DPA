@@ -20,9 +20,11 @@ public class BmmAlgorithm {
 	List<Vertex> listOfVertices = new ArrayList<Vertex>(); 
 	List<Port> listOfPorts = new ArrayList<Port>();
 	List<Edge> listOfEdges = new ArrayList<Edge>();
-	
 	List<Vertex> listToSort = new ArrayList<Vertex>();
 	List<Vertex> bipatiteVertex = new ArrayList<Vertex>();
+	int sentMessages = 0;
+	int recievedMessages = 0;
+	int timeStep = 1;
 	
 	public List<Edge> createVirtualNetwork(List<Vertex> graph, List<Edge> graphEdges) {
 		
@@ -131,11 +133,9 @@ public class BmmAlgorithm {
 	{	
 		fill();
 		int k = 1;
-		int timeStep = 1;
+		//int timeStep = 1;
 		while(isConverged() == 0) 
 		{
-			System.out.println("Round: " + timeStep);
-			System.out.println("k: " + k);
 			k = timeStep/2+1;
 			if(timeStep % 2 == 1) {bipatiteVertex = sortWhiteFirst();}
 			if(timeStep % 2 == 0) {bipatiteVertex = sortBlackFirst();}
@@ -150,12 +150,13 @@ public class BmmAlgorithm {
 						Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, k);
 						// send message to port v(round)
 						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
-						System.out.println("Odd Round if 1");
+						sentMessages++;
+						//System.out.println("Odd round if 1");
 					}
 					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
 					{
 						vertex.setVertexStatus(status.US);
-						System.out.println("Odd Round if 2");
+						//System.out.println("Odd round if 2");
 					}
 					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
@@ -164,9 +165,10 @@ public class BmmAlgorithm {
 						{
 							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, i);
 							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.vertexInstance));
+							sentMessages++;
 						} 
 						vertex.setVertexStatus(status.MS);
-						System.out.println("Odd Round if 3");
+						//System.out.println("Odd round if 3");
 					}
 					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{		
@@ -179,12 +181,14 @@ public class BmmAlgorithm {
 							if(m.equalsIgnoreCase("matched")) 
 							{
 								vertex.removeXV(recievedPortNumber);
-								System.out.println("Odd Round if 4");
+								recievedMessages++;
+								//System.out.println("Odd round if 4");
 							}
 							else if(m.equalsIgnoreCase("proposal")) 
 							{
 								vertex.fillMV(recievedPortNumber);
-								System.out.println("Odd Round if 5");
+								recievedMessages++;
+								//System.out.println("Odd round if 5");
 							}
 						}
 					}
@@ -201,15 +205,13 @@ public class BmmAlgorithm {
 							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, min_i);
 							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.vertexInstance));
 							vertex.setVertexStatus(status.MS);
-							//System.out.println("Black vertex " + vertex.getVertexID() + " sent accept to " + 
-							//targetPort.getVerticeInstance().getVertexColour() + " Vertex " +
-							//targetPort.getVerticeInstance().getVertexID() + "." + targetPort.getPortNumber());
-							System.out.println("Even Round if 6");
+							sentMessages++;
+							//System.out.println("Even round if 6");
 					}
 					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getXV().size() == 0) 
 					{
 							vertex.setVertexStatus(status.US);
-							System.out.println("Even Round if 7");
+							//System.out.println("Even round if 7");
 					}			
 					
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
@@ -221,14 +223,16 @@ public class BmmAlgorithm {
 							if(m.equalsIgnoreCase("accept")) 
 							{
 								vertex.setVertexStatus(status.MR);
-								System.out.println("Even Round if 8");
+								recievedMessages++;
+								//System.out.println("Even round if 8");
 							}
 						}
 					}	
 				}	
 				
 			}
-			timeStep++;	
+			timeStep++;
+			//System.out.println(timeStep);
 		}
 		
 	}
@@ -247,6 +251,9 @@ public class BmmAlgorithm {
 	}
 	
 	public List<Vertex> sendResultGraph(){ return bipatiteVertex;}
+	public int getSentMessages() {return sentMessages;}
+	public int getRecievedMessages() {return recievedMessages;}
+	public int getTimeStep() {return timeStep;}
 	
 	
 }
