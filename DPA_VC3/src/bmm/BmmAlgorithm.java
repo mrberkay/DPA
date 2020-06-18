@@ -44,7 +44,6 @@ public class BmmAlgorithm {
 				}
 		}		
 		
-		System.out.println("total number of ports in Virtual Network (black and white): " + listOfPorts.size());
 		
 		for(Edge i: graphEdges) 
 		{
@@ -149,43 +148,47 @@ public class BmmAlgorithm {
 						// get target port
 						Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, k);
 						// send message to port v(round)
-						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.vertexInstance));
+						networkBuffer.addMessage(vertex.sendProposal(targetPort, targetPort.getVerticeInstance()));
 						sentMessages++;
 						//System.out.println("Odd round if 1");
 					}
-					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR && k > vertex.getDegree()) 
 					{
 						vertex.setVertexStatus(status.US);
 						//System.out.println("Odd round if 2");
 					}
-					else if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
+					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.MR) 
 					{
 						// Send matched to all ports
 						for(int i = 1; i <= vertex.getDegree(); i++) 
 						{
 							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, i);
-							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.vertexInstance));
+							networkBuffer.addMessage(vertex.sendMatched(targetPort, targetPort.getVerticeInstance()));
 							sentMessages++;
 						} 
 						vertex.setVertexStatus(status.MS);
 						//System.out.println("Odd round if 3");
 					}
-					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR) 
 					{		
+						localMessages.clear();
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						// receive matched
+						// Iterator<String> iterator = list.iterator(); iterator.hasNext();
 						for(String currentMessage : localMessages) 
 						{
 							int recievedPortNumber = Integer.parseInt(currentMessage.substring(0, 1));
 							String m = currentMessage.substring(1);
 							if(m.equalsIgnoreCase("matched")) 
 							{
+								networkBuffer.deleteMessage(m, vertex);
 								vertex.removeXV(recievedPortNumber);
 								recievedMessages++;
 								//System.out.println("Odd round if 4");
 							}
 							else if(m.equalsIgnoreCase("proposal")) 
 							{
+								networkBuffer.deleteMessage(m, vertex);
 								vertex.fillMV(recievedPortNumber);
 								recievedMessages++;
 								//System.out.println("Odd round if 5");
@@ -203,12 +206,12 @@ public class BmmAlgorithm {
 							int minIndex = vertex.getMV().indexOf(Collections.min(vertex.getMV()));
 							int min_i = vertex.getMV().get(minIndex);
 							Port targetPort = dataContainer.getTargetPort(listOfEdges, vertex, min_i);
-							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.vertexInstance));
+							networkBuffer.addMessage(vertex.sendAccept(targetPort, targetPort.getVerticeInstance()));
 							vertex.setVertexStatus(status.MS);
 							sentMessages++;
 							//System.out.println("Even round if 6");
 					}
-					else if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getXV().size() == 0) 
+					if(vertex.getVertexColour() == colour.Black && vertex.getVertexStatus() == status.UR && vertex.getXV().size() == 0) 
 					{
 							vertex.setVertexStatus(status.US);
 							//System.out.println("Even round if 7");
@@ -216,12 +219,14 @@ public class BmmAlgorithm {
 					
 					if(vertex.getVertexColour() == colour.White && vertex.getVertexStatus() == status.UR) 
 					{
+						localMessages.clear();
 						localMessages = networkBuffer.getAllMessagesByVertex(vertex, networkBuffer.getBufferOfMessages());
 						for(String currentMessage : localMessages) 
 						{	
 							String m = currentMessage.substring(1);
 							if(m.equalsIgnoreCase("accept")) 
 							{
+								networkBuffer.deleteMessage(m, vertex);
 								vertex.setVertexStatus(status.MR);
 								recievedMessages++;
 								//System.out.println("Even round if 8");

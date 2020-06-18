@@ -91,11 +91,11 @@ public class Data {
 	{
 		for(Edge i : edges) 
 		{
-			if(i.getLeftEnd().vertexInstance.equals(vertex) && (i.getLeftEnd().getPortNumber() == myPortNumber)) 
+			if(i.getLeftEnd().vertexInstance.compare(vertex) && (i.getLeftEnd().getPortNumber() == myPortNumber)) 
 			{
 				return i.getRightEnd();
 			}
-			else if(i.getRightEnd().vertexInstance.equals(vertex) && (i.getRightEnd().getPortNumber() == myPortNumber)) 
+			else if(i.getRightEnd().vertexInstance.compare(vertex) && (i.getRightEnd().getPortNumber() == myPortNumber)) 
 			{
 				return i.getLeftEnd();
 			}

@@ -8,13 +8,12 @@ import bmm.Message;
 public class Vertex {
 	
 	int vertexID;
-	int ports;
 	int degree;
 	colour vertexColour;
 	status vertexStatus;
-	List<String> messageContainer;
-	List<Integer> mV;
-	List<Integer> xV;
+	//List<String> messageContainer;
+	List<Integer> mV = new ArrayList<Integer>();
+	List<Integer> xV  = new ArrayList<Integer>();
 
 	
 	/* 
@@ -26,11 +25,6 @@ public class Vertex {
 	 public enum status{ UR , MR , US , MS }
 	
 	 public enum colour{ Black, White }
-	 
-	 public void fillxV(int degree) 
-	 {
-
-	 }
 	
 	 
 	public Vertex(int vertexID, int degree, colour vertexColour) {
@@ -41,18 +35,16 @@ public class Vertex {
 		// if a vertex is created, its state must be unmatched and running
 		this.vertexStatus = status.UR;
 		// Vertex can receive multiple messages in one round
-		this.messageContainer = new ArrayList<String>();
-		this.mV = new ArrayList<Integer>();
-		this.xV = new ArrayList<Integer>();
+		//this.messageContainer = new ArrayList<String>();
 		for(int i = 1; i <= degree; i++) 
 		{
 			 xV.add(i);
 		}
 	}
 	
-	public Vertex(int nodeID, int degree) {
+	public Vertex(int vertexID, int degree) {
 		super();
-		this.vertexID = nodeID;
+		this.vertexID = vertexID;
 		this.degree = degree;
 	}
 	
@@ -62,14 +54,6 @@ public class Vertex {
 	
 	public void setVertexID(int vertexID) {
 		this.vertexID = vertexID;
-	}
-	
-	public int getPorts() {
-		return ports;
-	}
-	
-	public void setPorts(int ports) {
-		this.ports = ports;
 	}
 	
 	public int getDegree() {
@@ -104,26 +88,26 @@ public class Vertex {
 		Message m = new Message(proposal, targetPort, targetVertex);
 		return m;
 	}
-	
+	/*
 	public void recieveProposal(String proposal) throws Exception 
 	{
 		if(proposal.equalsIgnoreCase("proposal")) {messageContainer.add(proposal);}
 		else throw new Exception("Wrong message recieved: proposal");
 	}
-	
+	*/
 	public Message sendMatched(Port targetPort, Vertex targetVertex) 
 	{
 		String matched = "matched";
 		Message m = new Message(matched, targetPort, targetVertex);
 		return m;
 	}
-	
+	/*
 	public void recieveMatched(String matched) throws Exception 
 	{
 		if(matched.equalsIgnoreCase("matched")) {messageContainer.add(matched);}
 		else throw new Exception("Wrong message recieved: matched");
 	}
-	
+	*/
 	public Message sendAccept(Port targetPort, Vertex targetVertex) 
 	{
 		String accept = "accept";
@@ -149,6 +133,7 @@ public class Vertex {
 	
 	public void fillMV(int toFill) 
 	{
+		if(!mV.contains(toFill))
 		mV.add(toFill);
 	}
 	
@@ -161,7 +146,22 @@ public class Vertex {
 	{
 		return xV;
 	}
+	
+	
+	public boolean compare(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Vertex vertex = (Vertex) o;
+        return vertexID == vertex.vertexID &&
+        		degree == vertex.degree &&
+        		vertexColour == vertex.vertexColour;
+    }
+}
  
  
 
-}
+

@@ -38,5 +38,16 @@ public class Port {
 		connected = true;
 	}
 	
+	public boolean compare(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Port port = (Port) o;
+        return portNumber == port.portNumber && vertexInstance.compare(port.getVerticeInstance());
+    }
+	
 	
 }

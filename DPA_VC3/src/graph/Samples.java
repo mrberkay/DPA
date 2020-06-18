@@ -9,36 +9,61 @@ public class Samples {
 	
 	Data dataContainer = new Data();
 	
-	public void createGraph3() 
+	public void createGraph4() 
 	{
 		// Clear lists first
 		dataContainer.clearLists();
 		
 		// Create vertices
 		Vertex vertice1 = new Vertex (1,2);
-		Vertex vertice2 = new Vertex (2,1);
-		Vertex vertice3 = new Vertex (3,1);
+		Vertex vertice2 = new Vertex (2,2);
+		Vertex vertice3 = new Vertex (3,4);
+		Vertex vertice4 = new Vertex (4,1);
+		Vertex vertice5 = new Vertex (5,1);
 		// Add vertices to database
 		dataContainer.addVertice(vertice1);
 		dataContainer.addVertice(vertice2);
 		dataContainer.addVertice(vertice3);
+		dataContainer.addVertice(vertice4);
+		dataContainer.addVertice(vertice5);
 		// Create ports for vertices
-		Port port1_vertice1 = new Port(vertice1, 1);
-		Port port1_vertice2 = new Port(vertice1, 2);
-		Port port2_vertice1 = new Port(vertice2, 1);
-		Port port3_vertice1 = new Port(vertice3, 1);
+		Port v1p1 = new Port(vertice1, 1);
+		Port v1p2 = new Port(vertice1, 2);
+		Port v2p1 = new Port(vertice2, 1);
+		Port v2p2 = new Port(vertice2, 2);
+		Port v3p1 = new Port(vertice3, 1);
+		Port v3p2 = new Port(vertice3, 2);
+		Port v3p3 = new Port(vertice3, 3);
+		Port v3p4 = new Port(vertice3, 4);
+		Port v4p1 = new Port(vertice4, 1);
+		Port v5p1 = new Port(vertice5, 1);
+
 		// Add ports to database
-		dataContainer.addPort(port1_vertice1);
-		dataContainer.addPort(port1_vertice2);
-		dataContainer.addPort(port2_vertice1);
-		dataContainer.addPort(port3_vertice1);
+		dataContainer.addPort(v1p1);
+		dataContainer.addPort(v1p2);
+		dataContainer.addPort(v2p1);
+		dataContainer.addPort(v2p2);
+		dataContainer.addPort(v3p1);
+		dataContainer.addPort(v3p2);
+		dataContainer.addPort(v3p3);
+		dataContainer.addPort(v4p1);
+		dataContainer.addPort(v3p4);
+		dataContainer.addPort(v5p1);
+
 		
 		// Create Edges
-		Edge edge1 = new Edge(port1_vertice1 , port2_vertice1);
-		Edge edge2 = new Edge(port1_vertice2, port3_vertice1);
+		Edge edge1 = new Edge(v1p1, v2p1);
+		Edge edge2 = new Edge(v1p2, v3p1);
+		Edge edge3 = new Edge(v3p2, v2p2);
+		Edge edge4 = new Edge(v3p3, v4p1);
+		Edge edge5 = new Edge(v3p4, v5p1);
+
 		// Add edges to database
 		dataContainer.addEdge(edge1);
 		dataContainer.addEdge(edge2);
+		dataContainer.addEdge(edge3);
+		dataContainer.addEdge(edge4);
+		dataContainer.addEdge(edge5);
 	}
 	
 	public void createGraph6() 
